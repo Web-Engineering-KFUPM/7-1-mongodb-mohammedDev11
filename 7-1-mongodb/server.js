@@ -188,7 +188,7 @@
 import mongoose from "mongoose";
 
 // establish connection
-mongoose
+mongoosemongoose
   .connect(
     "mongodb+srv://s202279720_db_developer:Moh55991199@cluster0.gnmmfdp.mongodb.net/TestDB"
   )
