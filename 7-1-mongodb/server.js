@@ -6,9 +6,9 @@
  * ================================================================================================================
  *                                                    MongoDB Cloud
  * ================================================================================================================
- * 
+ *
  * =======================================================
- * TODO-1: SignUp and create cluster  
+ * TODO-1: SignUp and create cluster
  * =======================================================
  * - 1.1: SignUp on mongoDB cloud at https://cloud.mongodb.com/
  * - 1.2: create project and click on Build Cluster
@@ -26,7 +26,7 @@
  *   - 2.2: write any password.
  *    Note: Take a single screen shot of the Todo 2.1 & 2.2 before presing create database user button and save it in      Mongo-Screen-shots/TODO-2
  *   - 2.3: click on the button to create a database user
- * 
+ *
  * ============================================
  * TODO-3 Allow access to the network
  * ============================================
@@ -40,7 +40,7 @@
  * ============================================
 *    - 4.1: go to clusters and click on connect button.
 *    - 4.2: choose shell as the connection option.
-*    - 4.3: click on the I don't have mongoDB shell installed. 
+*    - 4.3: click on the I don't have mongoDB shell installed.
  *   - 4.4: choose windows or MacOS as operating system and install mongosh.(Take screent shot and save it in Mongo-Screen-shots/TODO-4)
  *   - 4.5: After installation setup the environment variable path.(Take screent shot and save it in Mongo-Screen-shots/TODO-4)
  *   - 4.6: copy the connection string
@@ -49,14 +49,14 @@
  * ============================================
  * TODO-5 Create DB & Collection
  * ============================================
- *   - In cmd write the following commands: 
+ *   - In cmd write the following commands:
  *      - 5.1:  use labDB          // create or switch DB
  *      - 5.2: db.createCollection("students") //// create collection
  *   Note: Take a single screen shot of the Todo 5.1 & 5.2 and save it in Mongo-Screen-shots/TODO-5
  * ============================================
  * TODO-6 Insert Documents
  * ============================================
- *   - 6.1: In cmd write the following commands: 
+ *   - 6.1: In cmd write the following commands:
  *      - db.students.insertMany([
             { name: "Ali", age: 21, major: "CS" },
             { name: "Sara", age: 23, major: "SE" } ])
@@ -64,21 +64,21 @@
  * ============================================
  * TODO-7 Read Documents
  * ============================================
- *   - In cmd write the following commands: 
+ *   - In cmd write the following commands:
  *      - 7.1:  db.students.find()               // all
  *      - 7.2: db.students.find({ age: { $gt: 21 } })  // filtered
  *   Note: Take a single screen shot of the Todo 7.1 & 7.2 and save it in Mongo-Screen-shots/TODO-7
  * ============================================
  * TODO-8 Update & Delete
  * ============================================
- *   - In cmd write the following commands: 
- *      - 8.1:  db.students.updateOne({ name: "Ali" }, { $set: { age: 22 } }) 
+ *   - In cmd write the following commands:
+ *      - 8.1:  db.students.updateOne({ name: "Ali" }, { $set: { age: 22 } })
  *      - 8.2: db.students.deleteOne({ name: "Sara" })
  *    Note: Take a single screen shot of the Todo 8.1 & 8.2 and save it in Mongo-Screen-shots/TODO-8
  * ============================================
  * TODO-9 Quick Check
  * ============================================
- *   - In cmd write the following commands: 
+ *   - In cmd write the following commands:
  *      - 9.1: db.students.find().pretty()
  *      - 9.2: Should show only Ali, age = 22.
  *    Note: Take a single screen shot of the Todo 9.1 & 9.2 and save it in Mongo-Screen-shots/TODO-9
@@ -117,10 +117,10 @@
  *  - write your database username in place of HasanDB in the connection string.
  *  - write your database password in place of <db_password> in the connection string.
  *  - Run server: node server.js to test connection.
- * 
+ *
  * =====================================================
  * TODO-2 Define the schema of the DB
- * ===================================================== 
+ * =====================================================
  *    const studentSchema = new mongoose.Schema({
          name: String,
          age: Number,
@@ -128,10 +128,10 @@
       });
       const Student = mongoose.model("Student", studentSchema);
       - Run server: node server.js and go to mongo cloud to see DB schema in test->students.
- * 
+ *
  * =====================================================
  * TODO-3 Create Document
- * ===================================================== 
+ * =====================================================
  *  - This code will create document in database.
  * async function createStudents() {
       await Student.insertMany([
@@ -144,9 +144,9 @@
    - Run server: node server.js and go to mongo cloud to see created document.
  * =====================================================
  * TODO-4 Read Documents
- * ===================================================== 
+ * =====================================================
  * - This code will read all the document in database.
- *  
+ *
  *    async function readStudents() {
          const all = await Student.find();
          console.log(all);
@@ -155,9 +155,9 @@
     - Run server: node server.js.
  * =====================================================
  * TODO-5 Update Document
- * ===================================================== 
+ * =====================================================
  * - This code will update a document in database.
- *  
+ *
  *    async function updateStudent() {
          await Student.updateOne({ name: "Ali" }, { age: 22 });
          console.log("✅ Updated Ali");
@@ -166,16 +166,16 @@
  * - Run server: node server.js and got to mongo cloud to see the updated document.
  * =====================================================
  * TODO-6 Delete Document
- * ===================================================== 
+ * =====================================================
  * - This code will delete a document in database.
- *  
+ *
  *    async function deleteStudent() {
          await Student.deleteOne({ name: "Sara" });
       console.log("✅ Deleted Sara");
       }
       deleteStudent();
  * - Run server: node server.js and got to mongo cloud to verify, document is deleted.
- * 
+ *
  * Note on Collection Naming in Node.js (Mongoose)
  * When a collection is created in Node.js using Mongoose, the name is automatically converted to lowercase and plural form.
  *  Examples:
@@ -185,20 +185,70 @@
  */
 
 // import mongoose
+import mongoose from "mongoose";
 
 // establish connection
-
+mongoose
+  .connect(
+    "mongodb+srv://s202279720_db_developer:Moh55991199@cluster0.gnmmfdp.mongodb.net/TestDB"
+  )
+  .then(() => {
+    console.log("Connected to MongoDB Atlas");
+    run();
+  })
+  .catch((err) => {
+    console.log("Connection error:", err);
+  });
 
 // define schema
-
+const studentSchema = new mongoose.Schema({
+  name: String,
+  age: Number,
+  major: String,
+});
+const Student = mongoose.model("Student", studentSchema);
 
 // create document
-
-
+async function createStudents() {
+  await Student.insertMany([
+    { name: "Ali", age: 21, major: "CS" },
+    { name: "Sara", age: 23, major: "SE" },
+  ]);
+  console.log("Inserted");
+}
 // read document
-
+async function readStudents() {
+  const all = await Student.find();
+  console.log("All students:", all);
+}
 
 // update document
-
-
+async function updateStudent() {
+  await Student.updateOne({ name: "Ali" }, { age: 22 });
+  console.log("Updated Ali");
+}
 // delete document
+async function deleteStudent() {
+  await Student.deleteOne({ name: "Sara" });
+  console.log("✅ Deleted Sara");
+}
+
+async function run() {
+  try {
+    await Student.deleteMany({});
+
+    await createStudents();
+    await readStudents();
+
+    await updateStudent();
+    await readStudents();
+
+    await deleteStudent();
+    await readStudents();
+  } catch (error) {
+    console.log("❌ Error:", error);
+  } finally {
+    await mongoose.connection.close();
+    console.log("🔌 Connection closed");
+  }
+}
